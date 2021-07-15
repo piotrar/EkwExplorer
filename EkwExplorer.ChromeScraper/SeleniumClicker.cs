@@ -48,6 +48,12 @@ namespace EkwExplorer.ChromeScraper
             ClickButton(button);
         }
 
+        public void ClickButtonByValue(string buttonValue)
+        {
+            var button = _driver.FindElement(By.XPath($"//input[@value='{buttonValue}']"));
+            ClickButton(button);
+        }
+
         public void ClickButtonByName(string buttonName)
         {
             var button = _driver.FindElement(By.Name(buttonName));
@@ -151,6 +157,36 @@ namespace EkwExplorer.ChromeScraper
             }
 
             return result;
+        }
+
+        public string GetPropertyOwners()
+        {
+            var contentElement = _driver.FindElement(By.Id("contentDzialu"));
+            var tableLines = contentElement
+                .FindElements(By.TagName("table"))
+                .Select(t => t.FindElements(By.TagName("tbody")).FirstOrDefault() ?? t)
+                .SelectMany(t => t.FindElements(By.TagName("tr")))
+                .ToArray();
+
+            var result = new List<string>();
+
+            foreach (var line in tableLines)
+            {
+                var cells = line.FindElements(By.TagName("td"));
+
+                if (cells.Count >= 2)
+                {
+                    var firstCellText = cells[0].Text?.ToLower();
+                    var isValidLine = firstCellText?.Contains("osoba");
+
+                    if (isValidLine == true)
+                    {
+                        result.Add(cells[1].Text);
+                    }
+                }
+            }
+
+            return string.Join("\n", result);
         }
 
         public void Dispose()

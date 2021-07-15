@@ -10,5 +10,6 @@ namespace EkwExplorer.Core
         Task AddPropertyFromBookAsync(BookInfo bookInfo);
         Task<bool> IsAnyNotFilled();
         Task<BookInfo> GetRandomNotFilledBookAsync();
+        Task<bool> BookExistsInDB(string number,string court);
     }
 }

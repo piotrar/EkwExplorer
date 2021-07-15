@@ -9,10 +9,12 @@ namespace EkwExplorer.Core
         void FillTextbox(string textboxId, string text);
         void ClickButtonById(string buttonId);
         void ClickButtonByName(string buttonName);
+        void ClickButtonByValue(string buttonValue);
         string GetValueFromTable(string rowCaption);
         bool CheckIfAnyError();
         bool CheckIfNotFound();
         void CloseCookiesInfo();
         IReadOnlyList<string> GetPropertyNumbers();
+        string GetPropertyOwners();
     }
 }

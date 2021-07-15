@@ -85,5 +85,12 @@ namespace EkwExplorer.Persistence.Repositories
                 await transaction.CommitAsync();
             }
         }
+
+        public Task<bool> BookExistsInDB(string number, string court)
+        {
+            var query = Queries.CheckExists.Replace("@number",number).Replace("@court", court);
+
+            return _db.Db.ExecuteScalarAsync<bool>(query);
+        }
     }
 }

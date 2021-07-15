@@ -7,5 +7,6 @@
         string GetRandomNotFilledBook { get; }
         string IsAnyNotFilled { get; }
         string UpdateBook { get; }
+        string CheckExists { get; }
     }
 }

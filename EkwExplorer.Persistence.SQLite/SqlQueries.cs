@@ -13,6 +13,8 @@ namespace EkwExplorer.Persistence.SQLite
 
             IsAnyNotFilled = $"SELECT EXISTS(SELECT 1 FROM `{configuration.BookTable}` WHERE `Filled` = 0 LIMIT 1);";
 
+            CheckExists = $"SELECT EXISTS(SELECT 1 FROM `{configuration.BookTable}` WHERE `Number` = '@number' AND `CourtCode` = '@court' LIMIT 1);";
+
             GetRandomNotFilledBook = $"SELECT * FROM `{configuration.BookTable}` WHERE `Filled` = 0 ORDER BY RANDOM() LIMIT 1;";
 
             UpdateBook = CreateUpdateQueryForEntity<BookEntity>(configuration.BookTable);
@@ -29,6 +31,7 @@ namespace EkwExplorer.Persistence.SQLite
         public string UpdateBook { get; }
 
         public string AddProperty { get; }
+        public string CheckExists { get; }
 
         private static string CreateInsertQueryForEntity<T>(string tableName)
         {

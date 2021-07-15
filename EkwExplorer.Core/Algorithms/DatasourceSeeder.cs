@@ -40,6 +40,9 @@ namespace EkwExplorer.Core.Algorithms
             for (var i = from; i <= to; i++)
             {
                 var number = i.ToString("D8");
+                var exists = await _repository.BookExistsInDB(number,court);
+                if (exists)
+                    continue;
                 var bookNumber = new BookNumber(court, number);
                 var controlDigit = decoder.Decode(bookNumber);
                 bookNumber.SetControlDigit(controlDigit);

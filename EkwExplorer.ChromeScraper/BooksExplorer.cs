@@ -77,6 +77,8 @@ namespace EkwExplorer.ChromeScraper
 
             var randomBook = await _booksRepository.GetRandomNotFilledBookAsync();
 
+            _logger.Information($"Book to download: {randomBook.Number}");
+
             await RandomDelay(cancellationToken);
 
             var bookExists = _seeker.ReadBookInfo(randomBook);
@@ -123,10 +125,10 @@ namespace EkwExplorer.ChromeScraper
         private int GetRandomDelay()
             => _random.Next(800, 2000);
 
-        private static Task<BookInfoSeeker> OpenSeeker()
+        private Task<BookInfoSeeker> OpenSeeker()
             => ReopenSeeker(null);
 
-        private static async Task<BookInfoSeeker> ReopenSeeker(BookInfoSeeker seeker)
+        private async Task<BookInfoSeeker> ReopenSeeker(BookInfoSeeker seeker)
         {
             seeker?.Clicker.Dispose();
 
@@ -136,13 +138,26 @@ namespace EkwExplorer.ChromeScraper
             return seeker;
         }
 
-        private static async Task<IClicker> CreateClicker(ChromeOptionsProvider optionsProvider)
+        private async Task<IClicker> CreateClicker(ChromeOptionsProvider optionsProvider)
         {
             var clicker = new SeleniumClicker(optionsProvider.Get());
 
             clicker.GotoHome();
-            await Task.Delay(1000);
-            clicker.CloseCookiesInfo();
+            await Task.Delay(2000);
+            var tries = 0;
+            while (tries<10)
+            {
+                try
+                {
+                    clicker.CloseCookiesInfo();
+                    break;
+                }
+                catch
+                {
+                    tries++;
+                    await Task.Delay(250);
+                }
+            }
 
             return clicker;
         }

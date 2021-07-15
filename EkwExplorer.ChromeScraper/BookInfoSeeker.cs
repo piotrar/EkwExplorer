@@ -38,7 +38,10 @@ namespace EkwExplorer.ChromeScraper
                 bookInfo.OpeningDate = Clicker.GetValueFromTable("Data zapisania księgi wieczystej");
                 bookInfo.ClosureDate = Clicker.GetValueFromTable("Data zamknięcia księgi wieczystej");
                 bookInfo.Location = Clicker.GetValueFromTable("Położenie");
-                bookInfo.Owner = Clicker.GetValueFromTable("Właściciel");
+                Clicker.ClickButtonById("przyciskWydrukZwykly");
+                Clicker.ClickButtonByValue("Dział II");
+                bookInfo.Owner = Clicker.GetPropertyOwners();
+                Clicker.ClickButtonByName("Wykaz");
 
                 return true;
             }

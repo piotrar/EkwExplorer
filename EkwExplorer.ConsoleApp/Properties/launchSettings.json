@@ -1,7 +1,8 @@
 {
   "profiles": {
     "EkwExplorer.ConsoleApp": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "sample-input.json"
     }
   }
 }
